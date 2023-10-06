@@ -2,34 +2,157 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Dark Theme Page</title>
+	<title>EasyKey Lite</title>
+	<link rel="icon" type="image/x-icon" href="./easykeylitewhite.png">
 	<style>
 		body {
-			background-color: #121212;
+			background-color: #242424 !important;
 			color: #fff;
 			font-family: Arial, sans-serif;
-			display: flex;
-			justify-content: center;
-			align-items: center;
 			height: 100vh;
 			margin: 0;
 		}
-		.card {
-			background-color: #333;
-			border-radius: 10px;
-			padding: 20px;
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-			justify-content: center;
-			align-items: center;
-			text-align: center;
-		}
 	</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<!-- Font Awesome -->
+	<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+	rel="stylesheet"
+	/>
+	<!-- Google Fonts -->
+	<link
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+	rel="stylesheet"
+	/>
+	<!-- MDB -->
+	<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
+	rel="stylesheet"
+	/>
+	<!-- MDB -->
+	<script
+	type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+	></script>
 </head>
 <body>
-	<div class="card">
-		<p><img src="./easykeylitewhite.png" style="width: 70px; height: 70px;"></p>
-		<h1>EasyKey Lite</h1>
-		<p>In development. <br>Please return soon.</p>
+	<div class="container pt-5 pb-5">
+		<div class="card text-white" style="background-color:#3b3b3b;">
+			<div class="card-body">
+				<div class="mb-3">
+					<img src="./easykeylitewhite.png" style="width: 60px; float: left; margin: 0px 15px 0px 0px;" >
+					<h4 class="card-title">EasyKey Lite</h4>
+					<p class="card-text">Below you can generate new keys for general use in a secure and easy way. 100% client-side JS.</p>
+				</div>
+				<hr>
+				<div style="max-width:500px;" >
+					<label for="customRange2" class="form-label text-white">Character Quantity <span id="mostrarquantidadecaracteres">(12)</span></label>
+					<input id="inputquantidadedecaracteres" type="range" class="form-range mb-0" min="0" max="50" value="12">
+					<div id="blocoinputstiposdecaracteres" class="mb-3">
+						<!-- Default checkbox -->
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="" id="inputletrasmaiusculas" checked="">
+							<label class="form-check-label" for="inputletrasmaiusculas">Upper Case Letters</label>
+						</div>
+						<!-- Checked checkbox -->
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="" id="inputletrasminusculas" checked="">
+							<label class="form-check-label" for="inputletrasminusculas">Lower Case Letters</label>
+						</div>
+						<!-- Checked checkbox -->
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="" id="inputnumeros" checked="">
+							<label class="form-check-label" for="inputnumeros">Numbers</label>
+						</div>
+						<!-- Checked checkbox -->
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="" id="inputcaracteresespeciais">
+							<label class="form-check-label" for="inputcaracteresespeciais">Special Characters</label>
+						</div>
+					</div>
+					<button id="botaogerarnovasenha" type="button" class="btn btn-light shadow-3 border btn-sm mb-4" style=""><i class="fa-solid fa-rotate-right me-2"></i>Generate New Key</button>
+					<div class="form-outline">
+						<input type="text" id="inputsenhagerada" class="active form-control form-control-lg text-white" value="1234567890">
+						<label class="form-label text-white" for="form12" style="margin-left: 0px;">New Generated Key</label>
+						<div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 117.6px;"></div><div class="form-notch-trailing"></div></div></div>
+
+						<button id="botaocopiarsenha" type="button" class="btn btn-primary shadow-3 btn-sm mt-3"> <i class="fa-regular fa-paste me-2"></i>Copy Key</button>
+
+						<div id="mensagemcopiadocomsucesso" class="mt-2 mb-0" style="display: none;">
+							<span class="text-success" style="font-size: 15px;">Key copied to the clipboard!</span>
+						</div>
+					</div>
+				</div>
+				<script>
+					$('#inputsenhagerada').select();
+					$('#inputsenhagerada').click(function() {
+						$(this).select();
+					});
+					$('#botaocopiarsenha').click(function() {
+                //I copy the text inside the field #inputsenhagerada, and put it in the clipboard
+						document.getElementById("inputsenhagerada").select();
+						document.execCommand("copy");
+                //Show the message
+						$('#mensagemcopiadocomsucesso').show();
+						setTimeout(function() {
+							$('#mensagemcopiadocomsucesso').hide();
+						}, 1000);
+					});
+
+            //Function to generate a random password
+					function generatePassword(length, characters) {
+						var password = '';
+						for (var i = 0; i < length; i++) {
+							password += characters.charAt(Math.floor(Math.random() * characters.length));
+						}
+						return password;
+					}
+            //Função para inserir a nova senha
+					function insertNewPassword() {
+                // Array of characters to be used in the password
+						var characters = '';
+						if ($('#inputletrasmaiusculas').is(':checked')) {
+							characters += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+						}
+						if ($('#inputletrasminusculas').is(':checked')) {
+							characters += 'abcdefghijklmnopqrstuvwxyz';
+						}
+						if ($('#inputnumeros').is(':checked')) {
+							characters += '0123456789';
+						}
+						if ($('#inputcaracteresespeciais').is(':checked')) {
+							characters += '!@#$%&=';
+						}
+                // Generate a new password
+						var length = $('#inputquantidadedecaracteres').val();
+						var password = generatePassword(length, characters);
+
+                // Set the value of the input field
+						$('#inputsenhagerada').val(password);
+					}
+
+            //Assim que chega na página, já injeta a primeira senha
+					insertNewPassword();
+
+            //If i click the button #botaogerarnovasenha, the field #inputsenhagerada is selected
+					$('#botaogerarnovasenha').click(function() {
+						insertNewPassword();
+						$('#inputsenhagerada').select();
+					});
+
+            // Event listener for changes in the input fields
+					$('#inputquantidadedecaracteres, #blocoinputstiposdecaracteres input').change(function() {
+                //Change the value of #mostrarquantidadecaracteres
+						$('#mostrarquantidadecaracteres').text('(' + $('#inputquantidadedecaracteres').val() + ')');
+                //Insert the new password
+						insertNewPassword();
+					});
+
+            //by ariving the page, i change the mostrarquantidadecaracteres to show the value of the input #inputquantidadedecaracteres
+					$('#mostrarquantidadecaracteres').text('(' + $('#inputquantidadedecaracteres').val() + ')');
+				</script>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
